@@ -1,25 +1,49 @@
-import express from "express";
-import cors from "cors";
-import { connectDB, getDB } from "./db.js";
+// Import core dependencies
+import express from "express";   // Web framework for building API routes
+import cors from "cors";        // Enables cross-origin requests (Vue → Express)
+import { getDB } from "./db.js"; // Custom function to connect to MongoDB Atlas
+import dotenv from "dotenv";     // Loads environment variables from .env
 
+// Load environment variables (PORT, MONGO_URI, etc.)
+dotenv.config();
 const app = express();
+
+const PORT = process.env.PORT || 3000;
+
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-await connectDB();
+// Health check route (optional)
+// Used to confirm the backend is running
+app.get("/", (req, res) => {
+  res.send("API is running!");
+});
 
-// GET all chores
+
 app.get("/api/chores", async (req, res) => {
   try {
-    const chores = await getDB().collection("chores").find().toArray();
-    res.json(chores);
+    // Connect to MongoDB (cached connection in db.js)
+    const db = await getDB();
+
+    // Fetch all documents from the "Books" collection
+    const items = await db.collection("chores").find().toArray();
+
+    // Send JSON response back to frontend
+    res.json(items);
   } catch (err) {
-    console.error("Error fetching chores:", err);
-    res.status(500).json({ error: "Failed to fetch chores" });
+    // Log errors to backend console
+    console.error("Error fetching items:", err);
+
+    // Send generic error to frontend
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
-// Add POST route for new chore
+// ----------------------
+// Start the Server
+// ----------------------
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server listening on http://localhost:${PORT}`);
+});
