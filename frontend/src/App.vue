@@ -1,5 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
+import ChoreCard from "./ChoreCard.vue"
+
 
 /* Hard coded JSON Data -> Now pulling instead from MongoDB  
   const chores = ref([
@@ -12,9 +14,57 @@ const chores = ref([]); //stores the list of chores
 const loading = ref(true); // Shows "Loading..." while fetching
 const error = ref(null); // Stores any error message
 
-function addChore () {
-  // inserts a completely blank chore that you can fill in. 
+async function saveChore(chore) {
+    const { _id, ...choreData } = chore; // strip _id
+    const res = await fetch(`http://localhost:3000/api/chores/${_id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(choreData),
+    });
+    const updated = await res.json();
+    const idx = chores.value.findIndex(c => c._id === updated._id);
+    if (idx !== -1) chores.value[idx] = updated;
+  } 
+
+
+
+function formatDate(dateStr) {
+  return dateStr?.slice(0, 10); // "2025-12-07"
 }
+
+
+async function updateChore(chore) {
+  try {
+    await fetch(`http://localhost:3000/api/chores/${chore._id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(chore),
+    });
+  } catch (err) {
+    error.value = "Could not update chore";
+  }
+}
+
+async function addChore() {
+  try {
+    const res = await fetch("http://localhost:3000/api/chores", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: "New Chore",
+        assigned: "",
+        day: "",
+        completed: false,
+      }),
+    });
+    const newChore = await res.json();
+    chores.value.push(newChore);
+  } catch (err) {
+    error.value = "Could not add chore";
+  }
+}
+
+
 
  onMounted(async () => {
   try {
@@ -36,74 +86,139 @@ function addChore () {
   <div class="page-container">
   <div class="top-line">
     <h1>Household Chore Tracker</h1>
-    <button type="button"> Insert Chore</button>
+    <button type="button" @click="addChore">Insert Chore</button>
   </div>
   <!-- When loading -->
     <p v-if="loading" class="status">Loading data...</p>
     <!-- When an error occurs -->
     <p v-if="error" class="error">{{ error }}</p>
-  <div class="chores-grid"> 
-    <div v-for="chore in chores" :key="chore.name" class="chores-card">
-    <div class="container">
-    <h3>
-      <input type="checkbox" v-model="chore.completed" />
-      {{ chore.name }} <!--- add editable text here-->
-    </h3>
-    <div class="assigned">
-      <span> Assigned: </span>
-      <p v-if="chore.assigned" contenteditable="true">{{ chore.assigned }}</p>
-      <p v-else contenteditable="">Unassigned</p>
-  </div>
-  <div class="date">
-    <p> Due Date:</p><input type="date"/>
-  </div>
-    <p>Status: {{ chore.completed ? "Done" : "Not yet" }}</p>
-  </div>
-  </div>
- </div>
+    <div class="chores-grid">
+      <div class="chores-grid">
+  <ChoreCard
+    v-for="chore in chores"
+    :key="chore._id"
+    :chore="chore"
+    :format-date="formatDate"
+    @update="updateChore"
+    @save="saveChore"
+  />
 </div>
+    </div>
+    </div>
 </template>
 
 <style scoped>
 .page-container {
-  font-family: 'Courier New', Courier, monospace;
-  margin-left: 10%;
-  margin-right: 10%;
-  margin-top: 5%;
-  margin-bottom: 5%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 5% 10%;
+  color: #333;
 }
-.chores-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);  
-  gap: 1rem;  
-  margin-top: 1rem;
-}
-.chores-card {
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-}
-.chores-card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-}
-.container {
-  padding: 2px 16px;
-}
-.date {
-  display: flex;
-}
-.assigned .span {
-  margin-left: 10px;
-}
+
 .top-line {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px solid coral;
+  padding-bottom: 0.5rem;
 }
+
+.top-line h1 {
+  color: coral;
+  font-size: 2rem;
+  margin: 0;
+}
+
 .top-line button {
-  margin-left: 61.5%;
+  background-color: coral;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
-.date input {
-  margin-left: 10px;
+.top-line button:hover {
+  background-color: #ff7f50; /* lighter coral */
+}
+
+.status, .error {
+  margin-top: 1rem;
+  font-weight: bold;
+}
+.error {
+  color: crimson;
+}
+
+.chores-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));  
+  gap: 1.5rem;  
+  margin-top: 1.5rem;
+}
+
+.chores-card {
+  background: #fff;
+  border: 2px solid coral;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(255,127,80,0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.chores-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(255,127,80,0.4);
+}
+
+.container {
+  padding: 1rem;
+}
+
+h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+input[type="text"], input[type="date"] {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0.4rem;
+  width: 100%;
+  transition: border-color 0.3s ease;
+}
+input[type="text"]:focus, input[type="date"]:focus {
+  border-color: coral;
+  outline: none;
+}
+
+.assigned {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+.assigned span {
+  font-weight: bold;
+  margin-right: 0.5rem;
+  color: coral;
+}
+
+.actions {
+  margin-top: 1rem;
+  text-align: right;
+}
+.actions button {
+  background-color: coral;
+  color: white;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.actions button:hover {
+  background-color: #ff7f50;
 }
 </style>
+
 
 <!-- // To Do List
   // Add pop up for when status, assigned, or due date has been changed.

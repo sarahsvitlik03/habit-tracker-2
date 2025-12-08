@@ -3,6 +3,7 @@ import express from "express";   // Web framework for building API routes
 import cors from "cors";        // Enables cross-origin requests (Vue → Express)
 import { getDB } from "./db.js"; // Custom function to connect to MongoDB Atlas
 import dotenv from "dotenv";     // Loads environment variables from .env
+import { ObjectId } from "mongodb";
 
 // Load environment variables (PORT, MONGO_URI, etc.)
 dotenv.config();
@@ -19,6 +20,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("API is running!");
 });
+
 
 
 app.get("/api/chores", async (req, res) => {
@@ -39,6 +41,46 @@ app.get("/api/chores", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+// POST a new chore
+app.post("/api/chores", async (req, res) => {
+  try {
+    const db = await getDB();
+    const result = await db.collection("chores").insertOne(req.body);
+    res.json({ ...req.body, _id: result.insertedId });
+  } catch (err) {
+    console.error("Error inserting chore:", err);
+    res.status(500).json({ error: "Failed to insert chore" });
+  }
+});
+
+
+app.put("/api/chores/:id", async (req, res) => {
+  try {
+    const db = await getDB();
+    const { id } = req.params;
+
+    // Strip _id from body to avoid immutable field error
+    const { _id, ...rest } = req.body;
+
+    const result = await db.collection("chores").findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { $set: rest },
+      { returnDocument: "after" }
+    );
+
+    if (!result.value) {
+      return res.status(404).json({ error: "Chore not found" });
+    }
+
+    res.json(result.value);
+  } catch (err) {
+    console.error("Error updating chore:", err);
+    res.status(500).json({ error: "Failed to update chore" });
+  }
+});
+
+ 
 
 // ----------------------
 // Start the Server
