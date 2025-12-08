@@ -35,22 +35,16 @@ app.get("/", (req, res) => {
 //GET all chores -> Connects to MongoDB, fetches chores, sends back JSON to frontend
 app.get("/api/chores", async (req, res) => {
   try {
-    // Connect to MongoDB (cached connection in db.js)
     const db = await getDB();
-
-    // Fetch all documents from the "chores" collection
+    console.log("Connected to DB:", db.databaseName);
     const items = await db.collection("chores").find().toArray();
-
-    // Send JSON response back to frontend
     res.json(items);
   } catch (err) {
-    // Log errors to backend console
     console.error("Error fetching items:", err);
-
-    // Send generic error to frontend
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: err.message });
   }
 });
+
 
 // POST a new chore -> inserts new chore and returns result
 app.post("/api/chores", async (req, res) => {
