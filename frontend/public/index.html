@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Sarah Svitlik</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"></head>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script>
+      function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+          x.className += " responsive";
+        } else {
+          x.className = "topnav";
+        }
+      }
+      </script>      
+  </head>
+    <body> 
+     <div class = "topnav" id="myTopnav">
+        <a href = "#home"class="active">Home</a>
+        <a href = "#aboutme">About Me</a>
+        <a href = "#education">Education</a>
+        <a href = "#skills">Skills</a>
+        <a href = "#experience">Experience</a>
+        <a href = "#projects">Projects</a>
+        <a href = "#blog">Blog</a>
+        <a href = "#certificates">Certificates</a>
+        <a href = "#contactme">Contact Me</a>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+    </div>
+ 
+    <section id="aboutme" class="section">
+      <div class="aboutme-container">
+        <div class="aboutme-image">
+        <img src="photo.jpg" alt="Photo of Sarah">
+      </div>
+      <div class="aboutme-text">
+        <h1>About Me</h1>
+          <p>Hello! I am a detail-oriented developer with expertise in frontend and backend development, project management,
+          and team collaboration. My passion is creating high-quality, user centered solutions through
+          thoughtful work and analysis. I am committed to continuous growth and process refinement to create impactful
+          results!</p>
+      <div id="currentlyPlaying">
+          <p>Currently Playing: Xenoblade Chronicles X</p>
+        </div>
+      </div>
+      </div>
+      </section>
+        
+     <hr>
+
+     <section id="education" class="section">
+      <h1>Education</h1>
+      <h3>Bachelor of Science: Computer Science </h3>
+        <p><i>University of New Haven - West Haven, CT</i></p>
+        <p><i>Graduation: May 2026</i></p>
+          <ul>
+            <li>Dean's List [Spring 2022, Spring 2025]</li>
+            <li>University of New Haven Distinguished Scholar Recipient</li>
+            <li>United Food & Commerical Worker's Local 919 Scholarship Recipient</li>
+            <li>Connecticut Community Foundation Scholarship Recipient</li>
+            <li>American Savings Scholarship Recipient</li>
+            <li>Awarded 2nd Place in the Pompea College of Business's Pitch Competition</li>
+          </ul>   
+        </section>
+
+        <hr>
+
+        <section id="skills" class="section">
+          <h1>Skills</h1>
+            <div class="skills-grid">
+              <span class="skill">JavaScript</span>
+              <span class="skill">Web Development</span>
+              <span class="skill">Mobile Development</span>
+              <span class="skill">React</span>
+              <span class="skill">C++</span>
+              <span class="skill">Kotlin</span>
+              <span class="skill">Python</span>
+              <span class="skill">Project Management</span>
+              <span class="skill">Documentation</span>
+              <span class="skill">Swift</span>
+              <span class="skill">Communication</span>
+              <span class="skill">C++</span>
+            </div>
+        </section>
+        <hr>
+
+        <section id="experience" class="section">
+          <h1>Experience</h1>
+            <h2>Frontend Developer</h2>
+              <p><i>One Sky Collective, Glasgow, Scotland</i>
+              </p>
+              <ul>
+                <li>Collaborating with the development team to build a <u>React-based mobile application</u> focused on user-centered design and functionality.</li>
+              </ul>     
+            <h2>Frontend Developer Lead</h2>
+              <p><i>GBCS Group, Calgary, Alberta</i></p>
+                <ul>
+                  <li>Contributed to the <u> development of internal web platforms </u> using React and Next.js,
+                      implementing new features and resolving bugs to improve functionality and user
+                      experience.</li>
+                  <li><u>Created technical documentation</u> to support development workflows and streamline
+                      onboarding for multiple websites.</li>
+                  <li>Engaged in weekly team meetings, providing updates and collaborating cross-functionally
+                      to align on goals.</li>
+                  <li>Developed practical skills in project management, with mentorship in <u>strategic planning,
+                      team dynamics, and workflow optimization.</u></li>
+                </ul>    
+        </section>
+
+        <hr>
+
+        <section id="projects" class="section">
+          <h1>Projects</h1>
+            <div class="project-card">
+              <img src="datespark.png" alt="DateSpark App Screenshot">
+              <div class="project-card-content">
+                <h2>DateSpark</h2>
+                <p>DateSpark is an interactive date finding app for couples! This project is an iOS mobile app using Swift and SwiftUI.</p>
+                <p>Features include:</p>
+                <ul>
+                  <li>Interactive wheel for selecting random date ideas</li>
+                  <li>Saved Dates list and custom input</li>
+                  <li>ChatGPT integration</li>
+                  <li>MapKit and Firebase backend</li>
+                  <li><a href="https://youtu.be/zaFkQbMY8QA">YouTube Video</a></li>
+                  <li><a href="https://github.com/UNH-iOS-Spring2024/DateSpark-S24--SvitlikRussell">GitHub Repo</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="project-card">
+              <img src="what2watch.png" alt="What2Watch App Screenshot">
+              <div class="project-card-content">
+                <h2>What2Watch</h2>
+                <p>What2Watch is an Android app using Kotlin (API 30+) to recommend movies and shows based on user preferences and mood.</p>
+                <p>Features include:</p>
+                <ul>
+                  <li>Firebase Firestore backend with data parsed from IMDb</li>
+                  <li>Google Sign-In authentication</li>
+                  <li>Dynamic UI tailored to user input and viewing habits</li>
+                  <li><a href="https://youtu.be/404anL1EBQ4">YouTube Video</a></li>
+                  <li><a href="https://github.com/UNH-Android-Fall23/What2Watch-Svitlik-Odunsi-F23.git">GitHub Repo</a></li>
+                </ul>
+              </div>
+            </div>
+            </section>
+        <hr>
+        
+        <section id="blog" class="section">
+          <h1>Blog</h1>
+          <div class="blog-list">
+            <div class="blog-card">
+              <h2><a href="blog1.html" target="_blank">My First Internship as a Frontend Developer</a></h2>
+              <p>What I learned and experienced during my first internship.</p>
+            </div>
+            <div class="blog-card">
+              <h2><a href="blog2.html" target="_blank">App Development: Android & iOS</a></h2>
+              <p>I’m excited to share the apps I completed this past year in my Android & iOS Development!</p>
+            </div>
+          </div>
+        </section>
+        <hr>
+        
+        <section id="certificates" class="section">
+        <h1>Certificates</h1>
+          <div class="cert-container">
+            <div class="cert-card">
+              <img src="skyit.png" alt="SkyIY Certificate">
+                <h2>GBCS Team Lead Certification</h2>
+              </div>
+              <div class="cert-card">
+                <img src="cybercert.png" alt="CyberCert">
+                <h2>Foundations of Cybersecurity Certification</h2>
+              </div>
+              <div class="cert-card">
+                <img src="networkcert.png" alt="NetworkCert">
+                <h2>Networks and Network Security Certification</h2>
+              </div>
+            </div>
+          </section>
+
+          <hr>
+          
+        <section id="contactme" class="section">
+          <h2>Contact Me</h2>
+          <form action="https://formspree.io/f/xovngwwe" method="POST" class="contact-form">
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" name="name" required><br><br>
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" required><br><br>
+            <label for="message">Message:</label><br>
+            <textarea id="message" name="message" rows="5" required></textarea><br><br>
+            <button type="submit">Send</button>
+          </form>
+        </section>
+
+        <footer class = "footer">
+            <a href = "#home">Home</a>
+            <a href = "#aboutme">About Me</a>
+            <a href = "#education">Education</a>
+            <a href = "#skills">Skills</a>
+            <a href = "#experience">Experience</a>
+            <a href = "#projects">Projects</a>
+            <a href = "#blog">Blog</a>
+            <a href = "#certificates">Certificates</a>
+            <a href = "#contactme">Contact Me</a>
+            <div class="footer-links">
+              <a href="https://github.com/sarahsvitlik03" target="_blank">GitHub</a> |
+              <a href="https://www.linkedin.com/in/sarah-svitlik/" target="_blank">LinkedIn</a>
+              <p>❤️ &copy; 2025 Sarah Svitlik</p>
+      </footer>
+  </body>
+</html>
+
+        

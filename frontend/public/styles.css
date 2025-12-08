@@ -1,0 +1,285 @@
+.topnav {
+  position: fixed;
+  width: 100%;
+  background-color: rgb(252, 252, 205);
+  padding: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: center;
+  z-index: 1000;  
+}
+
+.footer {
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+  padding: 20px;
+  white-space: nowrap;
+  overflow-x: auto;
+  text-align: center;
+}
+
+.topnav .icon {
+  display: none;
+}
+
+#home {
+  padding: 0px 0px;
+
+}
+.topnav a {
+  display: inline-block;
+  padding: 12px 15px;
+  color: black;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.topnav a:hover {
+  text-decoration: underline;
+}
+
+#currentlyPlaying {
+  padding: 6px 20%;
+  margin: 5px auto;
+  border: 2px solid #333;
+  border-radius: 6px;
+  background-color: rgb(252, 252, 205);
+  color: #333;
+}
+
+.section {
+  max-width: 1000px;
+  width: 90%;
+  margin: 0 auto;
+  padding: 50px 20px;
+  box-sizing: border-box;
+}
+
+.aboutme-container {
+  display: flex;
+  padding-top: 82px;  
+  align-items: flex-start;
+  gap: 30px;
+}
+
+.aboutme-image img {
+  width: 100%;
+  max-width: 240px;
+  height: auto;
+  border-radius: 50px;
+}
+
+.aboutme-text {
+  flex: 1;
+}
+
+.project-card {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 30px;
+  align-items: start;
+  margin-bottom: 40px;
+}
+
+.project-card img {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 12px;
+}
+
+.project-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+    word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.blog-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  max-width: 1000px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.blog-card {
+  max-width: 600px;
+  text-align: left;
+}
+
+.app-content {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  margin-bottom: 40px;
+}
+
+.app-image img {
+  max-width: 240px;
+  height: auto;
+  border-radius: 20px;
+}
+
+.app-image {
+  flex-shrink: 0;
+}
+
+.app-description {
+  flex: 1;
+}
+
+.cert-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 20px;
+}
+
+.cert-card {
+  max-width: 250px;
+  margin: 0 auto;
+  font-size: 8px;
+}
+
+.cert-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+}
+
+.blog-cert img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+}
+
+.cert-card h2 {
+  margin-top: 8px;
+  color: #333;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+.skill {
+    padding: 8px 12px;
+    margin: 5px;
+    border: 2px solid #333;
+    border-radius: 6px;
+    background-color: rgb(252, 252, 205);
+    font-weight: 500;
+    color: #333;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+.contact-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.topnav, .footer, .skill {
+  white-space: normal;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.contact-form button {
+  padding: 10px 16px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+@media only screen and (max-width: 500px) {
+  .skills-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  }
+  
+  .aboutme-container {
+    flex-direction: column;
+    align-items: center;   
+    text-align: left;   
+  }
+
+  #currentlyPlaying {
+    padding: 6px 10%;
+    font-size: 13px;
+    text-align: center;   
+  }
+
+  .cert-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .project-card {
+    grid-template-columns: 1fr; 
+    place-items: center;
+  }
+  .project-card-content h2 {
+    margin: 0;  
+    padding: 0;
+  }
+  
+  .project-card-content p {
+    margin: 5px 0; 
+    padding: 0;
+  }
+  
+  .project-card-content ul {
+    margin: 10px 0;
+    padding-left: 20px;  
+  }
+
+  .project-card img {
+    width: 40%;   
+  }
+
+  .topnav a:not(:first-child) {display: none;}
+  .topnav a.icon {
+    float: left;
+    display: block;
+  }
+
+  .topnav.responsive {position: relative;}
+  .topnav.responsive a.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+  }
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    font-size: 14px;
+    overflow-x: hidden;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}

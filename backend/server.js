@@ -26,6 +26,8 @@ app.get("/", (req, res) => {
   res.send("API is running!");
 });
 
+
+
 //GET all chores -> Connects to MongoDB, fetches chores, sends back JSON to frontend
 app.get("/api/chores", async (req, res) => {
   try {
