@@ -20,12 +20,13 @@ app.use(cors());
 // Allows Express to read JSON request bodies (POST, PUT, etc.)
 app.use(express.json());
 
-// Health check route (optional)
-// Used to confirm the backend is running
-app.get("/", (req, res) => {
-  res.send("API is running!");
-});
+//  Serve portfolio homepage
+app.use(express.static("public"));
 
+// health check
+app.get("/", (req, res) => {
+  res.sendFile("index.html", { root: "public" });
+});
 
 
 //GET all chores -> Connects to MongoDB, fetches chores, sends back JSON to frontend
