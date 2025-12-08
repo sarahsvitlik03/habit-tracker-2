@@ -2,36 +2,17 @@ import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 dotenv.config();
 
-const client = new MongoClient(process.env.MONGO_URI, {
-  tls: true,
-  tlsAllowInvalidCertificates: false,
-});
-
-let dbInstance = null;
+let client;
+let db;
 
 export async function getDB() {
-  // If already connected, reuse the existing connection
-  if (dbInstance) return dbInstance;
-
-  try {
-    // Open a connection to MongoDB Atlas
+  if (!client) {
+    client = new MongoClient(process.env.MONGO_URI, {
+      serverSelectionTimeoutMS: 5000,
+    });
     await client.connect();
-    console.log("Connected to MongoDB Atlas");
-
-    /**
-     * Choose the database name:
-     * - Prefer DB_NAME from .env
-     * - Otherwise default to "Library"
-     */
-    dbInstance = client.db(process.env.DB_NAME || "chores");
-
-    // Return the connected database object
-    return dbInstance;
-  } catch (err) {
-    // Log the actual error for debugging
-    console.error("MongoDB connection error:", err);
-
-    // Throw error so that Express routes can handle it properly
-    throw err;
+    db = client.db(); // automatically uses the db from URI
+    console.log("Connected to MongoDB Atlas:", db.databaseName);
   }
+  return db;
 }
