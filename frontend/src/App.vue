@@ -92,7 +92,6 @@ async function addChore() {
     <p v-if="loading" class="status">Loading data...</p>
     <!-- When an error occurs -->
     <p v-if="error" class="error">{{ error }}</p>
-    <div class="chores-grid">
       <div class="chores-grid">
   <ChoreCard
     v-for="chore in chores"
@@ -103,7 +102,6 @@ async function addChore() {
     @save="saveChore"
   />
 </div>
-    </div>
     </div>
 </template>
 
@@ -152,22 +150,11 @@ async function addChore() {
 
 .chores-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));  
-  gap: 1.5rem;  
+  grid-template-columns: repeat(3, 1fr); /* exactly 3 per row */
+  gap: 1.5rem;
   margin-top: 1.5rem;
 }
 
-.chores-card {
-  background: #fff;
-  border: 2px solid coral;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(255,127,80,0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.chores-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(255,127,80,0.4);
-}
 
 .container {
   padding: 1rem;

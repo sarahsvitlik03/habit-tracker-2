@@ -48,6 +48,21 @@ const emit = defineEmits(["update", "save"])
 </template>
 
 <style scoped>
-/* Optional: reuse your coral styles or keep this empty.
-   The parent styles already apply since your classes match. */
+.chores-card {
+  background: #fff;
+  border: 2px solid coral;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(255,127,80,0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.chores-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(255,127,80,0.4);
+}
+
+.container {
+  padding: 1rem;
+}
+
+/* keep your input, assigned, actions styles here too if they’re card-specific */
 </style>
