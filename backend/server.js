@@ -20,8 +20,11 @@ app.use(cors());
 // Allows Express to read JSON request bodies (POST, PUT, etc.)
 app.use(express.json());
 
-//  Serve portfolio homepage
-app.use(express.static("public"));
+// Serve portfolio at root
+app.use("/", express.static("public"));
+
+// Serve Vue SPA at /app
+app.use("/app", express.static("public/app"));
 
 // health check
 app.get("/", (req, res) => {
