@@ -2,7 +2,11 @@ import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 dotenv.config();
 
-const client = new MongoClient(process.env.MONGO_URI);
+const client = new MongoClient(process.env.MONGO_URI, {
+  tls: true,
+  tlsAllowInvalidCertificates: false,
+});
+
 let dbInstance = null;
 
 export async function getDB() {
