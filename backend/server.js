@@ -23,9 +23,6 @@ app.use(express.json());
 // Serve portfolio at root
 app.use("/", express.static("public"));
 
-// Serve Vue SPA at /app
-app.use("/app", express.static("public/app"));
-
 // health check
 app.get("/", (req, res) => {
   res.sendFile("index.html", { root: "public" });
