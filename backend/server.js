@@ -36,11 +36,10 @@ app.get("/", (req, res) => {
 app.get("/api/chores", async (req, res) => {
   try {
     const db = await getDB();
-    console.log("Connected to DB:", db.databaseName);
     const items = await db.collection("chores").find().toArray();
     res.json(items);
   } catch (err) {
-    console.error("Error fetching items:", err);
+    console.error("MongoDB error:", err.message);
     res.status(500).json({ error: err.message });
   }
 });
