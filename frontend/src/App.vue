@@ -10,41 +10,30 @@ import ChoreCard from "./ChoreCard.vue"
   { name: "Laundry", assigned: "Mom", day: "Monday", completed: true }
 ]);  */
 
+/**
+ * Reactive state variables
+ */
 const chores = ref([]); //stores the list of chores
 const loading = ref(true); // Shows "Loading..." while fetching
 const error = ref(null); // Stores any error message
 
+// saveChore -> sends PUT request to backend, then re-fetches all chores to refresh UI
 async function saveChore(chore) {
-    const { _id, ...choreData } = chore; // strip _id
-    const res = await fetch(`http://localhost:3000/api/chores/${_id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(choreData),
-    });
-    const updated = await res.json();
-    const idx = chores.value.findIndex(c => c._id === updated._id);
-    if (idx !== -1) chores.value[idx] = updated;
-  } 
+  await fetch(`http://localhost:3000/api/chores/${chore._id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(chore),
+  });
+  const res = await fetch("http://localhost:3000/api/chores");
+  chores.value = await res.json();
+}
 
-
-
+// Format date for MongoDB
 function formatDate(dateStr) {
-  return dateStr?.slice(0, 10); // "2025-12-07"
+  return dateStr?.slice(0, 10);  
 }
 
-
-async function updateChore(chore) {
-  try {
-    await fetch(`http://localhost:3000/api/chores/${chore._id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(chore),
-    });
-  } catch (err) {
-    error.value = "Could not update chore";
-  }
-}
-
+//Add a new chore -> sends post request to create new chore in MongoDB, adds new chore to chores array
 async function addChore() {
   try {
     const res = await fetch("http://localhost:3000/api/chores", {
@@ -64,14 +53,12 @@ async function addChore() {
   }
 }
 
-
-
+//runs when component is loaded, fetches all chores, handles errors
  onMounted(async () => {
   try {
     const res = await fetch("http://localhost:3000/api/chores");
     // If the server sends a non-200 response
     if (!res.ok) throw new Error("Failed to fetch");
-    // Convert response to JSON and store it in 'books'
     chores.value = await res.json();
   } catch (err) {
     console.error(err);
@@ -98,11 +85,10 @@ async function addChore() {
     :key="chore._id"
     :chore="chore"
     :format-date="formatDate"
-    @update="updateChore"
     @save="saveChore"
   />
-</div>
-    </div>
+  </div>
+ </div>
 </template>
 
 <style scoped>
@@ -205,17 +191,3 @@ input[type="text"]:focus, input[type="date"]:focus {
   background-color: #ff7f50;
 }
 </style>
-
-
-<!-- // To Do List
-  // Add pop up for when status, assigned, or due date has been changed.
-  // Add pop for when new chore is added. 
-  // Get button working with MongoDB  
-  // Add a third status: late when you have date in the past or haven't checked it off
-  // Need a pop-up to insert new document
-  // add onClick function for add chore. Let it open up a v-if form in the middle of the page if clicked, add to mongodb, reload database 
-
-// Top To Do List Items
-  // Transfer all data to be updated in MongoDB 
-  // Add button to insert new document with all editable text
---> 

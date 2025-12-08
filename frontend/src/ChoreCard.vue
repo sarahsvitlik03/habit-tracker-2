@@ -1,10 +1,11 @@
 <script setup>
-const props = defineProps({
+//props are passing from parent to child a chore object + formatDate
+const props = defineProps({  
   chore: { type: Object, required: true },
   formatDate: { type: Function, required: true }
 })
-
-const emit = defineEmits(["update", "save"])
+// defineEmits -> allows child to notify parent when chore is updated or saved
+const emit = defineEmits(["update", "save"])  
 </script>
 
 <template>
@@ -41,7 +42,7 @@ const emit = defineEmits(["update", "save"])
       <p>Status: {{ props.chore.completed ? "Done" : "Not yet" }}</p>
 
       <div class="actions">
-        <button @click="emit('save', props.chore)">Save</button>
+        <button @click="emit('save', props.chore)">Save</button> <!-- Emit? -->
       </div>
     </div>
   </div>
@@ -63,6 +64,4 @@ const emit = defineEmits(["update", "save"])
 .container {
   padding: 1rem;
 }
-
-/* keep your input, assigned, actions styles here too if they’re card-specific */
 </style>

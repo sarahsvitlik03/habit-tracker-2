@@ -3,16 +3,21 @@ import express from "express";   // Web framework for building API routes
 import cors from "cors";        // Enables cross-origin requests (Vue → Express)
 import { getDB } from "./db.js"; // Custom function to connect to MongoDB Atlas
 import dotenv from "dotenv";     // Loads environment variables from .env
-import { ObjectId } from "mongodb";
+import { ObjectId } from "mongodb"; //Get specific id from mongodb
 
 // Load environment variables (PORT, MONGO_URI, etc.)
 dotenv.config();
+
+// Create Express application
 const app = express();
 
+// Set fallback port if PORT not found in .env
 const PORT = process.env.PORT || 3000;
 
-// Middleware
+// Enable CORS so Vue frontend can call this backend
 app.use(cors());
+
+// Allows Express to read JSON request bodies (POST, PUT, etc.)
 app.use(express.json());
 
 // Health check route (optional)
@@ -21,14 +26,13 @@ app.get("/", (req, res) => {
   res.send("API is running!");
 });
 
-
-
+//GET all chores -> Connects to MongoDB, fetches chores, sends back JSON to frontend
 app.get("/api/chores", async (req, res) => {
   try {
     // Connect to MongoDB (cached connection in db.js)
     const db = await getDB();
 
-    // Fetch all documents from the "Books" collection
+    // Fetch all documents from the "chores" collection
     const items = await db.collection("chores").find().toArray();
 
     // Send JSON response back to frontend
@@ -42,48 +46,31 @@ app.get("/api/chores", async (req, res) => {
   }
 });
 
-// POST a new chore
+// POST a new chore -> inserts new chore and returns result
 app.post("/api/chores", async (req, res) => {
   try {
     const db = await getDB();
     const result = await db.collection("chores").insertOne(req.body);
-    res.json({ ...req.body, _id: result.insertedId });
+    res.json(result);
   } catch (err) {
     console.error("Error inserting chore:", err);
     res.status(500).json({ error: "Failed to insert chore" });
   }
 });
 
-
+// PUT chore -> finds chore by id, updates fields in MongoDB, returns update result
 app.put("/api/chores/:id", async (req, res) => {
-  try {
-    const db = await getDB();
-    const { id } = req.params;
-
-    // Strip _id from body to avoid immutable field error
-    const { _id, ...rest } = req.body;
-
-    const result = await db.collection("chores").findOneAndUpdate(
-      { _id: new ObjectId(id) },
-      { $set: rest },
-      { returnDocument: "after" }
-    );
-
-    if (!result.value) {
-      return res.status(404).json({ error: "Chore not found" });
-    }
-
-    res.json(result.value);
-  } catch (err) {
-    console.error("Error updating chore:", err);
-    res.status(500).json({ error: "Failed to update chore" });
-  }
+  const db = await getDB();
+  const result = await db.collection("chores").updateOne(
+    { _id: new ObjectId(req.params.id) },
+    { $set: req.body }
+  );
+  res.json(result);
 });
 
- 
 
 // ----------------------
-// Start the Server
+// Start the Server -> Starts express server
 // ----------------------
 
 app.listen(PORT, () => {
