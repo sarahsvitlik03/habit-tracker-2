@@ -59,14 +59,23 @@ app.post("/api/chores", async (req, res) => {
 
 // PUT chore -> finds chore by id, updates fields in MongoDB, returns update result
 app.put("/api/chores/:id", async (req, res) => {
-  const db = await getDB();
-  const result = await db.collection("chores").updateOne(
-    { _id: new ObjectId(req.params.id) },
-    { $set: req.body }
-  );
-  res.json(result);
-});
+  try {
+    const db = await getDB();
 
+    // Make a copy of the body without _id
+    const { _id, ...updateFields } = req.body;
+
+    const result = await db.collection("chores").updateOne(
+      { _id: new ObjectId(req.params.id) },
+      { $set: updateFields }
+    );
+
+    res.json({ modifiedCount: result.modifiedCount });
+  } catch (err) {
+    console.error("Error updating chore:", err.message);
+    res.status(500).json({ error: "Could not update chore" });
+  }
+});
 
 // ----------------------
 // Start the Server -> Starts express server
